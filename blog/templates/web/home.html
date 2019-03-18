@@ -1,0 +1,143 @@
+﻿{% extends 'web/base_main.html'%}
+
+{% block title%}jyonsi的个人博客网站{% endblock %}
+
+
+{% block css%}
+ {{super()}}
+    <link href="/static/web/css/home.css" rel="stylesheet" />
+{% endblock%}
+
+
+
+{% block content%}
+    <!-- 主体（一般只改变这里的内容） -->
+    <div class="blog-body">
+        <!-- canvas -->
+        <canvas id="canvas-banner" style="background: #393D49;"></canvas>
+        <!--为了及时效果需要立即设置canvas宽高，否则就在home.js中设置-->
+        <script type="text/javascript">
+            var canvas = document.getElementById('canvas-banner');
+            canvas.width = window.document.body.clientWidth - 10;//减去滚动条的宽度
+            if (screen.width >= 992) {
+                canvas.height = window.innerHeight * 1 / 3;
+            } else {
+                canvas.height = window.innerHeight * 2 / 7;
+            }
+        </script>
+        <!-- 这个一般才是真正的主体内容 -->
+        <div class="blog-container">
+            <div class="blog-main">
+                <!-- 网站公告提示 -->
+                <!--<div class="home-tips shadow">-->
+                    <!--<i style="float:left;line-height:17px;" class="fa fa-volume-up"></i>-->
+                    <!--<div class="home-tips-container">-->
+                        <!--<span style="color: #009688">偷偷告诉大家，本博客的后台管理也正在制作，为大家准备了游客专用账号！</span>-->
+                        <!--<span style="color: red">网站新增留言回复啦！使用QQ登陆即可回复，人人都可以回复！</span>-->
+                        <!--<span style="color: red">如果你觉得网站做得还不错，来Fly社区点个赞吧！<a href="http://fly.layui.com/case/2017/" target="_blank" style="color:#01AAED">点我前往</a></span>-->
+                        <!--<span style="color: #009688">不落阁 &nbsp;—— &nbsp;一个.NET程序员的个人博客，新版网站采用Layui为前端框架，目前正在建设中！</span>-->
+                    <!--</div>-->
+                <!--</div>-->
+                <!--左边文章列表-->
+                <div class="blog-main-left">
+                    {% for art in arts%}
+                    <div class="article shadow">
+                        <div class="article-left">
+                            <img src="/static/web/images/cover/201703181909057125.jpg" alt="基于laypage的layui扩展模块（pagesize.js）！" />
+                        </div>
+                        <div class="article-right">
+                            <div class="article-title">
+                                <a href="/detail/{{art.id}}">{{art.title}}</a>
+                            </div>
+                            <div class="article-abstract">
+                                {{art.desc}}
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="article-footer">
+                            <span><i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{art.create_time}}</span>
+                            <span class="article-author"><i class="fa fa-user"></i>&nbsp;&nbsp;jyonsi</span>
+                            <span><i class="fa fa-tag"></i>&nbsp;&nbsp;<a href="#">{{art.tp.type}}</a></span>
+                            <span class="article-viewinfo"><i class="fa fa-eye"></i>{{art.views_count}}</span>
+                            <span class="article-viewinfo"><i class="fa fa-commenting"></i>{{art.comments | count}}</span>
+                        </div>
+                    </div>
+                    {% endfor%}
+                </div>
+                <!--右边小栏目-->
+                <div class="blog-main-right">
+                    <div class="blogerinfo shadow">
+                        <div class="blogerinfo-figure">
+                            <img src="/static/web/images/avatar.jpg" />
+                        </div>
+                        <p class="blogerinfo-nickname">jyonsi</p>
+                        <p class="blogerinfo-introduce">一只喜欢的猫的汪</p>
+                        <p class="blogerinfo-location"><i class="fa fa-location-arrow"></i>&nbsp;四川 - 成都</p>
+                        <hr />
+                        <div class="blogerinfo-contact">
+                            <a target="_blank" title="QQ交流" href="javascript:layer.msg('启动QQ会话窗口')"><i class="fa fa-qq fa-2x"></i></a>
+                            <a target="_blank" title="给我写信" href="javascript:layer.msg('启动邮我窗口')"><i class="fa fa-envelope fa-2x"></i></a>
+                            <a target="_blank" title="新浪微博" href="javascript:layer.msg('转到你的微博主页')"><i class="fa fa-weibo fa-2x"></i></a>
+                            <a target="_blank" title="码云" href="javascript:layer.msg('转到你的github主页')"><i class="fa fa-git fa-2x"></i></a>
+                        </div>
+                    </div>
+                    <div></div><!--占位-->
+                    <div class="blog-module shadow">
+                        <div class="blog-module-title">热文排行</div>
+                        <ul class="fa-ul blog-module-ul">
+                            {% for ha in hotArticles %}
+                            <li><i class="fa-li fa fa-hand-o-right"></i><a href="/detail/{{ha.id}}">{{ha.title}}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="blog-module shadow">
+                        <div class="blog-module-title">最近分享</div>
+                        <ul class="fa-ul blog-module-ul">
+                            {% for art in newArts%}
+                            <li><i class="fa-li fa fa-hand-o-right"></i><a href="/detail/{{art.id}}" target="_blank">{{art.title}}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <!--<div class="blog-module shadow">-->
+                        <!--<div class="blog-module-title">一路走来</div>-->
+                        <!--<dl class="footprint">-->
+                            <!--<dt>2017年03月12日</dt>-->
+                            <!--<dd>新增留言回复功能！人人都可参与回复！</dd>-->
+                            <!--<dt>2017年03月10日</dt>-->
+                            <!--<dd>不落阁2.0基本功能完成，正式上线！</dd>-->
+                            <!--<dt>2017年03月09日</dt>-->
+                            <!--<dd>新增文章搜索功能！</dd>-->
+                            <!--<dt>2017年02月25日</dt>-->
+                            <!--<dd>QQ互联接入网站，可QQ登陆发表评论与留言！</dd>-->
+                        <!--</dl>-->
+                    <!--</div>-->
+                    <!--<div class="blog-module shadow">-->
+                        <!--<div class="blog-module-title">后台记录</div>-->
+                        <!--<dl class="footprint">-->
+                            <!--<dt>2017年03月16日</dt>-->
+                            <!--<dd>分页新增页容量控制</dd>-->
+                            <!--<dt>2017年03月12日</dt>-->
+                            <!--<dd>新增管家提醒功能</dd>-->
+                            <!--<dt>2017年03月10日</dt>-->
+                            <!--<dd>新增Win10快捷菜单</dd>-->
+                        <!--</dl>-->
+                    <!--</div>-->
+                    <div class="blog-module shadow">
+                        <div class="blog-module-title">友情链接</div>
+                        <ul class="blogroll">
+                            <li><a target="_blank" href="http://www.layui.com/" title="Layui">Layui</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+{% endblock%}
+
+
+{% block foot%}
+    {{super()}}
+    <script src="/static/web/js/home.js"></script>
+{% endblock%}
+

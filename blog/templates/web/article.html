@@ -1,0 +1,104 @@
+﻿{% extends 'web/base_main.html'%}
+
+
+{% block title%}文章专栏{% endblock %}
+
+
+{% block css%}
+ {{super()}}
+    <!--本页样式表-->
+    <link href="/static/web/css/article.css" rel="stylesheet" />
+{% endblock%}
+
+
+
+{% block content%}
+    <!-- 主体（一般只改变这里的内容） -->
+    <div class="blog-body">
+        <div class="blog-container">
+            <blockquote class="layui-elem-quote sitemap layui-breadcrumb shadow">
+                <a href="/home/" title="网站首页">网站首页</a>
+                <a><cite>文章专栏</cite></a>
+            </blockquote>
+            <div class="blog-main">
+                <div class="blog-main-left">
+                    <div class="shadow" style="text-align:center;font-size:16px;padding:40px 15px;background:#fff;margin-bottom:15px;">
+                        未搜索到与【<span style="color: #FF5722;">keywords</span>】有关的文章，随便看看吧！
+                    </div>
+                    {% for art in arts %}
+                    <div class="article shadow">
+                        <div class="article-left">
+                            <img src="/static/web/images/cover/201703181909057125.jpg" alt="{{art.title}}" />
+                            {# <!--<img src="{{artitcle.titleimg}}" alt="{{art.title}}" />--> #}
+                        </div>
+                        <div class="article-right">
+                            <div class="article-title">
+                                <a href="/detail/{{art.id}}">{{art.title}}</a>
+                            </div>
+                            <div class="article-abstract">
+                                {{art.desc}}
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="article-footer">
+                            <span><i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{art.create_time}}</span>
+                            <span class="article-author"><i class="fa fa-user"></i>&nbsp;{{art.u.account}}</span>
+                            <span><i class="fa fa-tag"></i>&nbsp;&nbsp;<a href="#">{{art.tp.type}}</a></span>
+                            <span class="article-viewinfo"><i class="fa fa-eye"></i>{{art.views_count}}</span>
+                            <span class="article-viewinfo"><i class="fa fa-commenting"></i>&nbsp;{{art.comments | count}}</span>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="blog-main-right">
+                    <div class="blog-search">
+                        <form class="layui-form" action="">
+                            <div class="layui-form-item">
+                                <div class="search-keywords  shadow">
+                                    <input type="text" name="keywords" lay-verify="required" placeholder="输入标题关键字" autocomplete="off" class="layui-input">
+                                </div>
+                                <div class="search-submit  shadow">
+                                    <a class="search-btn" lay-submit="formSearch" lay-filter="formSearch" href="/keysearch/<>"><i class="fa fa-search"></i></a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="article-category shadow">
+                        <div class="article-category-title">分类导航</div>
+                        {% for type in types %}
+                        <a href="/typenav/{{type.type}}">{{type.type}}</a>
+                        {% endfor %}
+                        <div class="clear"></div>
+                    </div>
+                    <!--<div class="blog-module shadow">-->
+                        <!--<div class="blog-module-title">作者推荐</div>-->
+                        <!--<ul class="fa-ul blog-module-ul">-->
+                            <!--<li><i class="fa-li fa fa-hand-o-right"></i><a href="/detail/">Web安全之跨站请求伪造CSRF</a></li>-->
+                            <!--<li><i class="fa-li fa fa-hand-o-right"></i><a href="/detail/">ASP.NET MVC 防范跨站请求伪造（CSRF）</a></li>-->
+                            <!--<li><i class="fa-li fa fa-hand-o-right"></i><a href="/detail/">C#基础知识回顾-扩展方法</a></li>-->
+                        <!--</ul>-->
+                    <!--</div>-->
+                    <div class="blog-module shadow">
+                        <div class="blog-module-title">随便看看</div>
+                        <ul class="fa-ul blog-module-ul">
+                            {% for art in lookarts %}
+                            <li><i class="fa-li fa fa-hand-o-right"></i><a href="/detail/{{art.id}}">{{art.title}}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <!--右边悬浮 平板或手机设备显示-->
+                    <div class="category-toggle"><i class="fa fa-chevron-left"></i></div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+{% endblock%}
+
+
+{% block foot%}
+    {{super()}}
+    <!-- 本页脚本 -->
+    <script src="/static/js/about.js"></script>
+{% endblock%}
+

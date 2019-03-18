@@ -1,0 +1,62 @@
+{% extends '/back/base_main.html'%}
+{% block title%}<title>商城后台菜单栏</title>{% endblock %}
+
+{% block css%}
+{{super()}}
+
+{% endblock%}
+
+
+{% block js%}
+{{super()}}
+{% endblock %}
+
+
+
+
+{% block content%}
+<section class="rt_wrap content mCustomScrollbar">
+ <div class="rt_content">
+      <div class="page_title">
+       <h2 class="fl">会员列表</h2>
+       <a href="#" class="fr top_rt_btn add_icon">添加新会员</a>
+      </div>
+      <section class="mtb">
+          <form action="" method="post">
+       <input type="text" name='condition' class="textbox textbox_225" placeholder="输入会员号/"/>
+       <input type="submit" value="查询" class="group_btn"/>
+          </form>
+      </section>
+      <table class="table">
+       <tr>
+        <th>Id</th>
+        <th>用户账户</th>
+        <th>用户发表文章数</th>
+        <th>操作</th>
+       </tr>
+       {% for user in pageBean.goodlist%}
+       <tr>
+        <td class="center">{{user.id}}</td>
+        <td class="center">{{user.account}}</td>
+        <td class="center">{{user.arts | count}}</td>
+        <td class="center">
+         <a href="user_edite.html" title="编辑" class="link_icon">&#101;</a>
+         <a href="#" title="删除" class="link_icon">&#100;</a>
+        </td>
+       </tr>
+        {% endfor %}
+      </table>
+    <aside class="paging">
+        <a href="/back/art_list">第一页</a>
+
+            {% for page in range(pageBean.totalPage) %}
+            <a href="/back/art_list?currentPage={{loop.index}}">{{loop.index}}</a>
+            {% endfor%}
+        <a href="/back/art_list?currentPage={{pageBean.totalPage}}">最后一页</a>
+    </aside>
+ </div>
+</section>
+{% endblock%}
+
+
+

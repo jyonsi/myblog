@@ -1,0 +1,104 @@
+{% extends '/back/base_main.html'%}
+{% block title%}<title>后台管理系统</title>{% endblock %}
+
+{% block css%}
+{{super()}}
+
+{% endblock%}
+
+
+{% block js%}
+<script src="/static/back/js/html5.js"></script>
+{{super()}}
+<script>
+
+	(function($){
+		$(window).load(function(){
+
+			$("a[rel='load-content']").click(function(e){
+				e.preventDefault();
+				var url=$(this).attr("href");
+				$.get(url,function(data){
+					$(".content .mCSB_container").append(data); //load new content inside .mCSB_container
+					//scroll-to appended content
+					$(".content").mCustomScrollbar("scrollTo","h2:last");
+				});
+			});
+
+			$(".content").delegate("a[href='top']","click",function(e){
+				e.preventDefault();
+				$(".content").mCustomScrollbar("scrollTo",$(this).attr("href"));
+			});
+
+		});
+	})(jQuery);
+</script>
+<script charset="utf-8" src="/static/back/editor/kindeditor-all-min.js"></script>
+<script charset="utf-8" src="/static/back/editor/lang/zh-CN.js"></script>
+<script>
+        KindEditor.ready(function(K) {
+                window.editor = K.create('#editor_id');
+
+        });
+
+</script>
+{% endblock %}
+
+
+
+
+{% block content%}
+<section class="rt_wrap mCustomScrollbar">
+
+    <div class="rt_content">
+        <div class="page_title">
+            <h2 class="fl">文章详情</h2>
+            <a class="fr top_rt_btn" href="/back/type_category/">返回商品列表</a>
+        </div>
+        <form action="" method="post" enctype="multipart/form-data">
+            <input type='hidden' name='csrfmiddlewaretoken' value='q3tTrBuDcMhfvSS9x2u0yQAyRbboSQuyMyt42kgwgKS0rKxCv31hIWTsS3ULhZn7' />
+            <section>
+                <ul class="ulColumn2">
+                    <li>
+                        <span class="item_name" style="width:120px;">文章名称：</span>
+                        <input type="text" name="name" value="" class="textbox textbox_295" placeholder="商品名称..."/>
+
+                    </li>
+
+                    <li>
+                        <span class="item_name" style="width:120px;">分类：</span>
+                        <select class="select" name="type">
+                                <option ></option>
+                                {% for type in types%}
+                                <option value="{{type.type}}">{{type.type}}</option>
+                                {% endfor%}
+                        </select>
+
+                    </li>
+
+                    <li>
+                        <span class="item_name" style="width:120px;">文章描述：</span>
+
+                        <textarea name="desc" style="width:400px;height:100px;">
+                        </textarea>
+                    </li>
+                    <li>
+                        <textarea id="editor_id" name="content" style="width:700px;height:300px;">
+                        &lt;strong&gt;HTML内容&lt;/strong&gt;
+                        </textarea>
+                    </li>
+
+                    <li>
+                        <span class="item_name" style="width:120px;"></span>
+                        <input type="submit" class="link_btn"/>
+                    </li>
+                </ul>
+            </section>
+        </form>
+    </div>
+
+</section>
+{% endblock%}
+
+
+

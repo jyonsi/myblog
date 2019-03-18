@@ -1,0 +1,61 @@
+{% extends 'base_main.html'%}
+{% block title %}
+ 后台注册
+{% endblock %}
+
+{% block css%}
+
+ <style>
+  body{height:100%;background:#16a085;overflow:hidden;}
+  canvas{z-index:-1;position:absolute;}
+ </style>
+ {{super()}}
+{% endblock%}
+
+{% block js %}
+ {{super()}}
+ <script src="{{url_for('static',filename='js/verificationNumbers.js')}}"></script>
+ <script src="{{url_for('static',filename='js/Particleground.js')}}"></script>
+ <script>
+    $(document).ready(function() {
+    //粒子背景特效
+    $('body').particleground({
+      dotColor: '#5cbdaa',
+      lineColor: '#5cbdaa'
+    });
+    //验证码
+    createCode();
+  });
+ </script>
+{% endblock%}
+
+
+
+{% block content%}
+
+<form action="/regist/" method="post" id="form">
+ <dl class="admin_login">
+  <dt>
+   <strong>站点后台管注册</strong>
+   <em>Management System</em>
+  </dt>
+  <dd class="user_icon">
+   <input type="text" placeholder="账号" class="login_txtbx" name="account"/>
+  </dd>
+  <dd class="pwd_icon">
+   <input type="password" placeholder="密码" class="login_txtbx" name="password"/>
+  </dd>
+  <dd class="pwd_icon">
+    <input type="password" placeholder="确认密码" class="login_txtbx" name="repassword"/>
+  </dd>
+  <dd>
+   <input type="submit" value="注册" class="submit_btn"/>
+  </dd>
+  <dd id ='lastdd'>
+   <p>© 2015-2016 DeathGhost 版权所有</p>
+   <p>陕B2-20080224-1</p>
+  </dd>
+ </dl>
+</form>
+
+{% endblock%}
